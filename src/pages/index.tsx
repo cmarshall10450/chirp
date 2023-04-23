@@ -1,5 +1,6 @@
 import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
+import Link from "next/link";
 import Head from "next/head";
 import Image from "next/image";
 import dayjs from "dayjs";
@@ -84,10 +85,14 @@ const PostView = (props: PostWithUser) => {
       />
       <div className="flex flex-col">
         <div className="flex gap-1 text-slate-300">
-          <span>{`@${author.username}`}</span>
-          <span className="font-thin">{`- ${dayjs(
-            post.createdAt
-          ).fromNow()}`}</span>
+          <Link href={`/@${author.username}`} className="hover:underline">
+            <span>{`@${author.username}`}</span>
+          </Link>
+          <Link href={`/post/${post.id}`}>
+            <span className="font-thin">{`- ${dayjs(
+              post.createdAt
+            ).fromNow()}`}</span>
+          </Link>
         </div>
         <span className="text-xl">{post.content}</span>
       </div>
@@ -108,7 +113,7 @@ const Feed = () => {
   );
 };
 
-const Home: NextPage = () => {
+const HomePage: NextPage = () => {
   const { isLoaded: userLoaded, isSignedIn } = useUser();
 
   if (!userLoaded) return <div />;
@@ -141,4 +146,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default HomePage;
